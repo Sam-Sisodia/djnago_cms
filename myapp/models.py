@@ -10,27 +10,57 @@ class Sevices_Model(CMSPlugin):
     def __str__(self):
         return self.name
     
+
 class Doctor(models.Model):
-    name = models.CharField(max_length=20)
-    def __str__(self) -> str:
-        return self.name
-
-
-
-class Department(models.Model):
-    name = models.CharField(max_length=20)
-    def __str__(self) -> str:
-        return self.name
+    name = models.CharField(max_length=200)
+    email = models.EmailField(null=True,blank=False)
+    on_leave = models.BooleanField(default=False) 
     
+    def __str__(self) -> str:
+        return self.name
+
+
+
+
 class Appointment(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,related_name="doctor",  )
-    department = models.ForeignKey(Department, on_delete=models.CASCADE,related_name="department",  )
-    name = models.CharField(max_length=20)
-    email = models.EmailField(null=True,blank=True)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=False)
+    name = models.CharField(max_length=200,null=True,blank=False)
+    email = models.EmailField(null=True,blank=False)
+    phone = models.CharField(max_length=15,null=True,blank=False)
+    message = models.TextField(null=True,blank=False)
     date = models.DateField(null=True,blank=False)
-    time = models.TimeField(null=True,blank=False)
-    
+    time=  models.TimeField(null=True,blank=False)
+    availble = models.BooleanField(default=False)
+
     def __str__(self) -> str:
         return self.name
+
+    
+    
+
+
+
+# class Doctor(models.Model):
+#     name = models.CharField(max_length=20)
+#     def __str__(self) -> str:
+#         return self.name
+
+
+
+# class Department(models.Model):
+#     name = models.CharField(max_length=20)
+#     def __str__(self) -> str:
+#         return self.name
+    
+# class Appointment(models.Model):
+#     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,related_name="doctor",  )
+#     department = models.ForeignKey(Department, on_delete=models.CASCADE,related_name="department",  )
+#     name = models.CharField(max_length=20)
+#     email = models.EmailField(null=True,blank=True)
+#     date = models.DateField(null=True,blank=False)
+#     time = models.TimeField(null=True,blank=False)
+    
+#     def __str__(self) -> str:
+#         return self.name
 
     

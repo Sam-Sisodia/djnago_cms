@@ -224,9 +224,9 @@ TEXT_INLINE_EDITING = True
 # Add project-wide static files directory
 # https://docs.djangoproject.com/en/5.0/ref/settings/#staticfiles-dirs
 
-STATICFILES_DIRS = [
-    BASE_DIR / "myproject" / "static",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "myproject" / "static",
+# ]
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -237,3 +237,11 @@ INTERNAL_IPS = [
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = str(BASE_DIR.parent / "media")
+
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'myproject', 'static'),
+]

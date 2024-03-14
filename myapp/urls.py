@@ -2,9 +2,11 @@
 from . import views
 from django.urls import path
 
-app_name = "myapp"
+# app_name = "myapp"
+
 urlpatterns = [
-    path('', views.GetDoctors.as_view(), name='index'),
-    path('contact/', views.content, name='index'),
+    
+    path("", views.BookAppointment.as_view() ,name="home"),
+    path("my-data", views.MyAppointments.as_view() ,name="my-data"),
 
 ]

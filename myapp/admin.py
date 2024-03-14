@@ -1,29 +1,16 @@
 from django.contrib import admin
 
 # Register your models here.
-from . models import Doctor , Department ,Appointment
+from . models import Doctor ,Appointment
+
 
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ["id","name"]
-
-
-
-@admin.register(Department)
-class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ["id","name"]
- 
-
-
+    list_display = ["id","name","email","on_leave"]
 
 
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display= ["id","doctor",
-"department",
-"name",
-"email",
-"date",
-"time",]
+    list_display = ["id","doctor","name","email","phone","message","date","time","availble"]
