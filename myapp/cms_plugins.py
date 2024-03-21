@@ -16,11 +16,19 @@ class HelloPlugin(CMSPluginBase):
 class ServicePlugIn(CMSPluginBase):
     model = Sevices_Model
     name = _("Service Plugin")
-    render_template = "sercard.html"
+    render_template = "show.html"
     cache = False
 
 
     def render(self, context, instance, placeholder):
-        context = super().render(context, instance, placeholder)
+        data = Sevices_Model.objects.all()
+        context ={
+            "data": data
+        }
+        # Render the template and return the HTTP response
         return context
+       
+        # context = super().render(context, instance, placeholder)
+       
+        # return context
 

@@ -90,6 +90,7 @@ MIDDLEWARE = [
     "cms.middleware.toolbar.ToolbarMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "cms.middleware.language.LanguageCookieMiddleware",
+    "cms.middleware.utils.ApphookReloadMiddleware"
 ]
 
 ROOT_URLCONF = "myproject.urls"
@@ -179,6 +180,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -202,8 +204,9 @@ CMS_TEMPLATES = (("index.html", _("Standard")),
                  ("appointment.html", _("Appointment Template")),
                 
                  ("dummy.html", _("Dummy Template")),
-                ("hello.html", _("hello Template")),
-                ("hi.html", _("hi Template")),
+                ("show.html", _("show Template")),
+            
+                ("show.html", _( " show Template ")),
 
                  )
 

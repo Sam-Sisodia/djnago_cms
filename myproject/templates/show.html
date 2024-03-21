@@ -1,0 +1,36 @@
+
+
+<style>
+    .card{
+        min-height: 350px;
+        width: 300px;
+        margin: auto;
+      
+    }
+    .userimg{
+        width: 200px;
+        border-radius: 100px;
+        min-height: 100px;
+        margin: auto;
+        
+
+    }
+    .btn{
+        background-color: aqua;
+    }
+
+</style>
+
+{% for i in data %}
+        <div class="card"> 
+            <img src="{{ i.img.url }}" class="userimg">
+            <p style="font-family: Arial, Helvetica, sans-serif;">{{i.description}}</p>
+            <button class="btn"> View more</button>
+        </div>
+
+{% endfor %}
+        
+
+    
+   
+   

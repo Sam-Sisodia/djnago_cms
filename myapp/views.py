@@ -8,7 +8,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
-from .models import Doctor, Appointment
+from .models import Doctor, Appointment,Sevices_Model
 from .email import appointment_mail
 from django.contrib import messages
 
@@ -71,6 +71,14 @@ class MyAppointments(View):
         }
         return render(request,"myappointments.html",context )
 
-        
 
+
+class Showdata(View):
+    def get(self, request):
+        data = Sevices_Model.objects.all()
+        context ={
+            "data": data
+        }
+        # Render the template and return the HTTP response
+        return render(request, "show.html",context)
 
