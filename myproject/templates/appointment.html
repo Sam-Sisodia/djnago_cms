@@ -7,13 +7,198 @@
   
     <link href= " {% static 'css/style.css' %}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
 
-   <center> <h1>Welcome to the Appointment Book!  </h1> </center>
+  <style>
+    /* all */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --main-blue: #71b7e6;
+  --main-purple: #9b59b6;
+  --main-grey: #ccc;
+  --sub-grey: #d9d9d9;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  justify-content: center; /*center vertically */
+  align-items: center; /* center horizontally */
+  /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
+  background: #2ba2b1 !important;
+  padding: 10px;
+  
+
+}
+/* container and form */
+.container {
+  
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 5px;
+}
+.container .title {
+  font-size: 20px;
+  font-weight: 500;
+  position: relative;
+}
+
+.container .title::before {
+  content: "";
+  position: absolute;
+  height: 3.5px;
+  width: 30px;
+  background: linear-gradient(135deg, var(--main-blue), var(--main-purple));
+  left: 0;
+  bottom: 0;
+}
+
+.container form .user__details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+/* inside the form user details */
+form .user__details .input__box {
+  width: calc(100% / 2 - 20px);
+  margin-bottom: 15px;
+}
+
+.user__details .input__box .details {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+.user__details .input__box input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid var(--main-grey);
+  padding-left: 15px;
+  font-size: 16px;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.user__details .input__box input:focus,
+.user__details .input__box input:valid {
+  border-color: var(--main-purple);
+}
+
+/* inside the form gender details */
+
+form .gender__details .gender__title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+form .gender__details .category {
+  display: flex;
+  width: 80%;
+  margin: 15px 0;
+  justify-content: space-between;
+}
+
+.gender__details .category label {
+  display: flex;
+  align-items: center;
+}
+
+.gender__details .category .dot {
+  height: 18px;
+  width: 18px;
+  background: var(--sub-grey);
+  border-radius: 50%;
+  margin: 10px;
+  border: 5px solid transparent;
+  transition: all 0.3s ease;
+}
+
+#dot-1:checked ~ .category .one,
+#dot-2:checked ~ .category .two,
+#dot-3:checked ~ .category .three {
+  border-color: var(--sub-grey);
+  background: var(--main-purple);
+}
+
+form input[type="radio"] {
+  display: none;
+}
+
+/* submit button */
+form .button {
+  height: 45px;
+  margin: 45px 0;
+}
+
+form .button input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  /* background: linear-gradient(135deg, var(--main-blue), var(--main-purple)); */
+  background: #2ba2b1 !important;
+  transition: all 0.3s ease;
+}
+
+form .button input:hover {
+  background: linear-gradient(-135deg, var(--main-blue), var(--main-purple));
+}
+
+@media only screen and (max-width: 584px) {
+  .container {
+    max-width: 100%;
+  }
+
+  form .user__details .input__box {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  form .gender__details .category {
+    width: 100%;
+  }
+
+  .container form .user__details {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
+  .user__details::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+  </style>
+
+
+  </head>
+
+
+   <center> <h1 style="color: white;">Welcome to the Appointment Book!  </h1> </center>
    
 <body>
     
-    {% if messages %}
+
+<div class="container">
+
+  <div class="title">Book your Appointment </div>
+  {% if messages %}
     {% for message in messages %}
         <div class="alert-container">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -26,114 +211,66 @@
     {% endfor %}
 {% endif %}
 
-<div class="formbold-main-wrapper">
-   
-
-    <div class="formbold-form-wrapper">
-      <form action="" method="POST">
-        {% csrf_token %}
-        <div class="formbold-mb-5">
-          <label for="name" class="formbold-form-label"> Full Name </label>
-          <input
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div class="user__details">
+      <div class="input__box">
+        <span class="details">Full Name</span>
+        <input
             type="text"
             name="name"
             id="name"
             placeholder="Full Name"
-            class="formbold-form-input"
             required
           />
-        </div>
-        <div class="formbold-mb-5">
-          <label for="phone" class="formbold-form-label"> Phone Number </label>
-          <input
-            type="text"
-            name="phone"
-            id="phone"
-            placeholder="Enter your phone number"
-            class="formbold-form-input"
-        required
-          />
-        </div>
-        <div class="formbold-mb-5">
-          <label for="email" class="formbold-form-label"> Email Address </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter your email"
-            class="formbold-form-input"
-            required
-          />
-        </div>
+      </div>
+      <div class="input__box">
+        <span class="details">Phone Number</span>
+        <input type="tel"  placeholder="012-345-6789" required>
+      </div>
 
-
-
-        <div class="formbold-mb-5">
-            <label for="doctor" class="formbold-form-label">Select Doctor </label>
-            <select name="doctor" id="doctor" class="formbold-form-input" required>
+      <div class="input__box">
+        <span class="details">Email</span>
+        <input type="email" placeholder="johnsmith@hotmail.com" required>
+      </div>
+    
+      <div class="input__box">
+        <span class="details">Select Doctor </span>
+        <select name="doctor" id="doctor" class="formbold-form-input" required>
                 <option value="" selected disabled>Sele Doctor </option>
-                
+
                 {% for doc in doctors %}
                       <option value="{{doc.id}}" > {{doc.name }}    </option>
                 {% endfor %}
                
                 <!-- Add more options as needed -->
             </select>
-          </div>
+      </div>
+      <div class="input__box">
+        <span class="details">Enter Date </span>
+        <input type="date" placeholder="" name="date" id="date" required>
+      </div>
 
 
-         <div class="formbold-mb-5">
-            <label for="message" class="formbold-form-label">Message</label>
-            <textarea
-              name="message"
-              id="message"
-              placeholder="Enter your message"
-              class="formbold-form-input"
-              required
-              rows="2" 
-            ></textarea>
-        </div>
-        
+      <div class="input__box">
+        <span class="details">Enter time</span>
+        <input type="time" placeholder="" name="time" id="time" required>
+      </div>
 
-          
-        <div class="flex flex-wrap formbold--mx-3">
-          <div class="w-full sm:w-half formbold-px-3">
-            <div class="formbold-mb-5 w-full">
-              <label for="date" class="formbold-form-label"> Date </label>
-              <input
-                type="date"
-                name="date"
-                id="date"
-                class="formbold-form-input"
-                required
-              />
-            </div>
-          </div>
-          <div class="w-full sm:w-half formbold-px-3">
-            <div class="formbold-mb-5">
-              <label for="time" class="formbold-form-label"> Time </label>
-              <input
-                type="time"
-                name="time"
-                id="time"
-                class="formbold-form-input"
-                required
-              />
-            </div>
-          </div>
-        </div>
-  
-  
-        <div>
-          <button type="submit" class="formbold-btn">Book Appointment</button>
-        </div>
-      </form>
-
-      
-     
+      <div class="input__box">
+        <span class="details">Enter Your Message</span>
+        <textarea placeholder="" class="formbold-form-input"  name="message" id="message" rows="2" required></textarea>
     </div>
-  </div>
-  
+
+
+   
+    </div>
+    
+    <div class="button">
+      <input type="submit" value="Register">
+    </div>
+  </form>
+</div>
   
 </body>
 
