@@ -9,7 +9,8 @@ class PollsApphook(CMSApp):
     name = "Myapplication"
 
     def get_urls(self, page=None, language=None, **kwargs):
-    #     return [  path("", views.BookAppointment.as_view() ,name="home"),
+    #     return [  
+    #         path("", views.BookAppointment.as_view() ,name="home"),
     #         path("my-data/", views.MyAppointments.as_view() ,name="my-data"),
     #         path("show-data/",views.Showdata.as_view(),name="show-data")
     # ]   

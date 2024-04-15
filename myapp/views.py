@@ -82,3 +82,14 @@ class Showdata(View):
         # Render the template and return the HTTP response
         return render(request, "show.html",context)
 
+
+
+class AdminDashboard(View):
+    def get(self, request):
+        print("+++++++++++++++")
+        data = Sevices_Model.objects.all()
+        
+        # Render the template and return the HTTP response
+        return render(request, "admin/dashnav.html",)
+
+
