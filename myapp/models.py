@@ -2,6 +2,8 @@ from django.db import models
 
 # Create your models here.
 from cms.models import CMSPlugin
+from  myapp.enums import AppointmentDuration
+
 
 class Sevices_Model(CMSPlugin):
     img = models.ImageField(upload_to="img", null=True,blank=True)
@@ -12,10 +14,16 @@ class Sevices_Model(CMSPlugin):
         return self.name
     
 
+
 class Doctor(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField(null=True,blank=False)
-    on_leave = models.BooleanField(default=False) 
+    available = models.BooleanField(default=False) 
+    specialization = models.CharField(max_length=200,null=True,blank=False)
+    appointment_duration = models.CharField(max_length=200,choices=AppointmentDuration.appointment_time(),null=True,blank=False)
+    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=False)
+    updated_at = models.DateTimeField(auto_now=True,null=True,blank=False)
+
     
     def __str__(self) -> str:
         return self.name
@@ -31,7 +39,6 @@ class Appointment(models.Model):
     message = models.TextField(null=True,blank=False)
     date = models.DateField(null=True,blank=False)
     time=  models.TimeField(null=True,blank=False)
-    availble = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name

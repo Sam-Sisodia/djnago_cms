@@ -8,13 +8,13 @@ from . models import Doctor ,Appointment ,Sevices_Model
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ["id","name","email","on_leave"]
+    list_display = ["id","name","email","available","specialization","appointment_duration","created_at","updated_at"]
 
 
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ["id","doctor","name","email","phone","message","date","time","availble"]
+    list_display = ["id","doctor","name","email","phone","message","date","time"]
 
 
 

@@ -83,13 +83,14 @@ class Showdata(View):
         return render(request, "show.html",context)
 
 
-
+from django.conf import settings
 class AdminDashboard(View):
     def get(self, request):
-        print("+++++++++++++++")
         data = Sevices_Model.objects.all()
+        installed_apps = [app.split('.')[-1] for app in settings.INSTALLED_APPS]
+        print("Installed Django +++++++++++++++++++++++++++++++applications:", ', '.join(installed_apps))
         
         # Render the template and return the HTTP response
-        return render(request, "admin/dashnav.html",)
+        return render(request, "admin/dashboard.html",)
 
 
