@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.contrib.auth import get_user_model
 from . models import Doctor  ,Appointment
 
 from django.views import generic
@@ -8,9 +8,72 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
-from .models import Doctor, Appointment,Sevices_Model
+from .models import Doctor, Appointment,Sevices_Model,User
 from .email import appointment_mail
 from django.contrib import messages
+from  myapp.enums import AppointmentDuration , UserType
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as user_logout
+
+
+
+
+
+
+
+
+class Register(View):
+    def get(self,request):
+        usertypes = UserType.usertypes() 
+        context = {
+            "usertypes":usertypes
+
+        }
+        return render(request,"register.html",context)
+    
+    def post(self, request):
+        name = request.POST.get("name")
+        usertype = request.POST.get("usertype")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        obj = User.objects.create(name=name,user_type=usertype,email=email,password=password)
+        obj.set_password(obj.password)
+        obj.save()
+        return redirect('dashboard')
+
+
+def Login(request):
+    if  request.method == "POST":
+        email = request.POST.get('email')
+        password =request.POST.get('password')
+     
+        user = authenticate(request,email=email,password=password)
+        print("use",email,password)
+       
+
+        if user is not None:
+            print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+            auth_login(request, user)
+            user=request.user
+            print("++++++++++++++",user.user_type)
+            if user:
+                return render(request,'dashboard.html')
+
+            else:
+                messages.info(request ,"Please Verify Your Accounts ")
+        else:
+            messages.info(request ,"Incorrect Username or Password")
+            return render(request, 'login.html')
+    return render(request,'login.html')
+
+
+def logout(request):
+    user_logout(request)
+    return redirect('/login')
+
+        
+
 
 class BookAppointment(View):
     def get(self, request):
@@ -39,7 +102,9 @@ class BookAppointment(View):
             appointment = Appointment.objects.create(doctor=doctor, name=name, email=email, phone=phone,
                                                       message=message, date=date, time=time)
             appointment_mail(appointment, doctor)
-            messages.success(request, f"Your appointment is booked at Date : {appointment.date}  Time :{appointment.time}")
+            appointment_time = datetime.strptime(appointment.time, '%H:%M').time()
+            formatted_time = appointment_time.strftime('%I:%M %p')
+            messages.success(request, f"Your appointment is booked at Date : {appointment.date} at the  Time {formatted_time}")
         return render(request, "appointment.html")
     
     @staticmethod
@@ -70,6 +135,9 @@ class MyAppointments(View):
             "appointments": appointments
         }
         return render(request,"dashboard/tables.html",context )
+
+
+
 
 
 
