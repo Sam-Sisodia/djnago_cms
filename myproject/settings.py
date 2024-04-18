@@ -180,6 +180,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+# AUTH_USER_MODEL ='myapp.User'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -258,3 +260,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'sajal89304@gmail.com'
 EMAIL_HOST_PASSWORD = 'lpgusqpwjmwlhbnl'
+
+

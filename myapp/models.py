@@ -1,9 +1,26 @@
 from django.db import models
 
 # Create your models here.
-from cms.models import CMSPlugin
-from  myapp.enums import AppointmentDuration
+from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 
+from cms.models import CMSPlugin
+from django.utils.translation import gettext_lazy as _
+from  myapp.enums import AppointmentDuration , UserType
+
+# class User(AbstractBaseUser):
+#     name = models.CharField(_('User name '), max_length=100)
+#     email = models.EmailField(_('email address'), unique=True)
+#     user_type = models.CharField(_('user type'), max_length=100, choices=UserType.usertypes())
+    
+#     # Add other fields and methods as needed
+
+#     objects = BaseUserManager()
+
+#     USERNAME_FIELD = 'email'
+    
+
+#     def __str__(self):
+#         return self.email
 
 class Sevices_Model(CMSPlugin):
     img = models.ImageField(upload_to="img", null=True,blank=True)
@@ -12,6 +29,11 @@ class Sevices_Model(CMSPlugin):
 
     def __str__(self):
         return self.name
+    
+
+
+# class Department(models.Model):
+#     pass
     
 
 

@@ -1,0 +1,95 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+      .errorlist{
+        color: red;
+        list-style-type:none;
+      }
+      .success{
+        color:green;
+      }
+</style>
+<div class="container">
+ <div class="row my-3">
+  <div class="col-sm-6 offset-sm-3">
+   <h3>User Registration</h3>
+   <hr>
+
+
+   <form action="" method="post" novalidate class="shadow p-5">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="inputEmail4" class="form-label">Name</label>
+        <input type="text" name ="name" class="form-control" id="inputEmail4" required>
+        
+        {{form.errors.username}}
+        </div>
+      
+
+      <div class="mb-3">
+      <label for="inputEmail4" class="form-label">Email</label>
+      <input type="email" name ="email" class="form-control" id="" required>
+      
+      {{form.errors.email}}
+      </div>
+
+
+      <div class="mb-3">
+        <label for="inputEmail4" class="form-label">User Type</label>
+        <select name="usertype" id="usertype" class="formbold-form-input" required>
+            <option value="" selected disabled>Sele User Type </option>
+            {% for usertype in usertypes %}
+                <option value="{{usertype.0}}" > {{usertype.0 }}    </option>
+            {% endfor %} 
+           
+        
+        </select>
+        
+        {{form.errors.usertype}}
+        </div>
+
+
+      <div class="mb-3">
+      <label for="inputPassword1" class="form-label">Password</label>
+      <input type="password" name = "password" class="form-control" id="" required>
+      {{form.errors.password}}
+      </div>
+     
+      {% if messages %}
+       {% for message in messages %}
+        
+         <span {% if message.tags %}   class ="{{message.tags}}"  {% endif %}>
+            {{message}}</span>
+
+        {% endfor %}
+
+    {% endif %}
+      <div class="text-end">
+      <button type="Submit" class="btn btn-primary">Submit</button>
+      </div>
+      <br>
+      <div class="text-center text-primary fw-bold"><small>Existing User ? <a href="{%  url 'login' %}"
+         class="text-primary">Login Now</a> </small></div>
+
+         
+      </form>
+      
+
+
+     
+   
+
+  </div>
+ </div>
+</div>
+
+
+
+
+   
+
+{% endblock %}

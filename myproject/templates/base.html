@@ -1,2 +1,11 @@
-{# Replace this with your base template #}
-{% extends "bootstrap5/base.html" %}
+{% load static %}
+<head>
+{% include 'css.html' %}
+</head>
+<body>
+{% include 'header.html' %}
+{% block  content %}
+
+
+{% endblock  %}
+</body>
