@@ -7,9 +7,9 @@ from django.urls import path
 urlpatterns = [
     
     path("", views.BookAppointment.as_view() ,name="home"),
-    path("my-data/", views.MyAppointments.as_view() ,name="my-data"),
+    path("all-appointments/", views.MyAppointments.as_view() ,name="all-appointments"),
     path("show-data/",views.Showdata.as_view(),name="show-data"),
-    path("admin-dashboard/",views.AdminDashboard.as_view(), name="admin-dashboard")
+    path("dashboard/",views.AdminDashboard.as_view(), name="dashboard")
     
 
 ]

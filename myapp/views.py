@@ -69,7 +69,7 @@ class MyAppointments(View):
         context = {
             "appointments": appointments
         }
-        return render(request,"myappointments.html",context )
+        return render(request,"dashboard/tables.html",context )
 
 
 
@@ -91,6 +91,6 @@ class AdminDashboard(View):
         print("Installed Django +++++++++++++++++++++++++++++++applications:", ', '.join(installed_apps))
         
         # Render the template and return the HTTP response
-        return render(request, "admin/dashboard.html",)
+        return render(request, "dashboard/dashboard.html",)
 
 
