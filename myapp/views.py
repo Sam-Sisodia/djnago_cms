@@ -20,25 +20,40 @@ User = get_user_model()
 
 
 class Register(View):
+    usertypes = UserType.usertypes() 
+    context = {"usertypes":usertypes  }
     def get(self,request):
-        usertypes = UserType.usertypes() 
-        context = {
-            "usertypes":usertypes
-        }
-        return render(request,"register.html",context)
+        return render(request,"register.html",self.context)
     
     def post(self, request):
-        name = request.POST.get("name")
-        usertype = request.POST.get("usertype")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        obj = User.objects.create(username=email,email=email,password=password,first_name=name)
-        obj.set_password(obj.password)
-        obj.save()
-        UserProfile.objects.create(user=obj, user_type=usertype)
-    
+        try:
+            name = request.POST.get("name")
+            usertype = request.POST.get("usertype")
+            email = request.POST.get("email")
+            password = request.POST.get("password")
+            if not self.validateform(request, usertype, email):
+                return render(request, "register.html", self.context)
+            obj = User.objects.create(username=email,email=email,password=password,first_name=name)
+            obj.set_password(obj.password)
+            obj.save()
+            UserProfile.objects.create(user=obj, user_type=usertype)
+            return redirect('login')
+        except Exception as e:
 
-        return redirect('login')
+            return render(request,"register.html",self.context)
+    
+    @staticmethod
+    def validateform(request, usertype, email):
+        user = User.objects.filter(username=email).exists()
+        if user:
+            messages.info(request, "Email is already registered")
+            return False
+        if not usertype:
+            messages.info(request, "Please Select usertype")
+            return False
+        return True
+
+
 
 
 def Login(request):
