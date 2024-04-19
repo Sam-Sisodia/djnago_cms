@@ -8,19 +8,15 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
-from .models import Doctor, Appointment,Sevices_Model,User
+from .models import Doctor, Appointment,Sevices_Model,UserProfile
 from .email import appointment_mail
 from django.contrib import messages
 from  myapp.enums import AppointmentDuration , UserType
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as user_logout
-
-
-
-
-
-
+from django.contrib.auth  import get_user_model
+User = get_user_model()
 
 
 class Register(View):
@@ -28,7 +24,6 @@ class Register(View):
         usertypes = UserType.usertypes() 
         context = {
             "usertypes":usertypes
-
         }
         return render(request,"register.html",context)
     
@@ -37,10 +32,13 @@ class Register(View):
         usertype = request.POST.get("usertype")
         email = request.POST.get("email")
         password = request.POST.get("password")
-        obj = User.objects.create(name=name,user_type=usertype,email=email,password=password)
+        obj = User.objects.create(username=email,email=email,password=password,first_name=name)
         obj.set_password(obj.password)
         obj.save()
-        return redirect('dashboard')
+        UserProfile.objects.create(user=obj, user_type=usertype)
+    
+
+        return redirect('login')
 
 
 def Login(request):
@@ -48,20 +46,23 @@ def Login(request):
         email = request.POST.get('email')
         password =request.POST.get('password')
      
-        user = authenticate(request,email=email,password=password)
+        user = authenticate(request,username=email,password=password)
         print("use",email,password)
        
-
         if user is not None:
-            print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
             auth_login(request, user)
             user=request.user
-            print("++++++++++++++",user.user_type)
-            if user:
-                return render(request,'dashboard.html')
-
-            else:
-                messages.info(request ,"Please Verify Your Accounts ")
+            user =UserProfile.objects.filter(user=user).first()
+            usertype = user.user_type
+        
+            print("++++++++++",usertype)
+            
+            if usertype =="Staff":
+                return redirect('dashboard')
+            if usertype =="Doctor":
+                return redirect('doctor-appointments')
+            if usertype =="Patient":
+                return redirect('home')         
         else:
             messages.info(request ,"Incorrect Username or Password")
             return render(request, 'login.html')
@@ -128,7 +129,7 @@ class BookAppointment(View):
         return None  # Return None if no validation errors occur
 
 
-class MyAppointments(View):
+class AdminAppointments(View):
     def get(self,request):
         appointments = Appointment.objects.all()
         context = {
@@ -137,6 +138,15 @@ class MyAppointments(View):
         return render(request,"dashboard/tables.html",context )
 
 
+
+
+class DoctorAppointments(View):
+    def get(self,request):
+        appointments = Appointment.objects.all()
+        context = {
+            "appointments": appointments
+        }
+        return render(request,"myappointments.html",context )
 
 
 

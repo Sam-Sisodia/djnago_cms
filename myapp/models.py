@@ -6,21 +6,16 @@ from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from cms.models import CMSPlugin
 from django.utils.translation import gettext_lazy as _
 from  myapp.enums import AppointmentDuration , UserType
+from  django.contrib.auth import get_user_model
 
-class User(AbstractBaseUser):
-    name = models.CharField(_('User name '), max_length=100)
-    email = models.EmailField(_('email address'), unique=True)
+User = get_user_model()
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=False)
+    
     user_type = models.CharField(_('user type'), max_length=100, choices=UserType.usertypes())
     
-    # Add other fields and methods as needed
-
-    objects = BaseUserManager()
-
-    USERNAME_FIELD = 'email'
-    
-
-    def __str__(self):
-        return self.email
+   
 
 class Sevices_Model(CMSPlugin):
     img = models.ImageField(upload_to="img", null=True,blank=True)
