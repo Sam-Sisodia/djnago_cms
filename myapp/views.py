@@ -21,8 +21,10 @@ User = get_user_model()
 
 class Register(View):
     usertypes = UserType.usertypes() 
-    context = {"usertypes":usertypes  }
+    context = {"usertypes":usertypes }
+    print("+++++++++++++++++++++",usertypes)
     def get(self,request):
+        print("++++++++++++++++++++++++++++++++++++++++++++",self.usertypes)
         return render(request,"register.html",self.context)
     
     def post(self, request):
@@ -62,15 +64,11 @@ def Login(request):
         password =request.POST.get('password')
      
         user = authenticate(request,username=email,password=password)
-        print("use",email,password)
-       
         if user is not None:
             auth_login(request, user)
             user=request.user
             user =UserProfile.objects.filter(user=user).first()
             usertype = user.user_type
-        
-            print("++++++++++",usertype)
             
             if usertype =="Staff":
                 return redirect('dashboard')
@@ -92,12 +90,16 @@ def logout(request):
 
 
 class BookAppointment(View):
+    doctors = Doctor.objects.all()
+       
+    durations = AppointmentDuration.appointment_time() 
+     
+    context = {
+        "doctors":doctors,
+        "durations":durations,
+    }
     def get(self, request):
-        doctors = Doctor.objects.all()
-        context = {
-            "doctors": doctors
-        }
-        return render(request, "appointment.html", context)
+        return render(request, "appointment.html", self.context)
     
     def post(self, request):
         name = request.POST.get("name")
@@ -111,7 +113,7 @@ class BookAppointment(View):
         validation_result = self.validate_appointment(doctor_id,date, time,)
         if validation_result:
             messages.error(request, f"{validation_result}.")
-            return render(request, "appointment.html")
+            return render(request, "appointment.html",self.context)
         
         if date:
             doctor = Doctor.objects.get(id=doctor_id)
@@ -121,8 +123,11 @@ class BookAppointment(View):
             appointment_time = datetime.strptime(appointment.time, '%H:%M').time()
             formatted_time = appointment_time.strftime('%I:%M %p')
             messages.success(request, f"Your appointment is booked at Date : {appointment.date} at the  Time {formatted_time}")
-        return render(request, "appointment.html")
-    
+            return render(request, "appointment.html",self.context)
+
+        
+        return render(request, "appointment.html",self.context)
+        
     @staticmethod
     def validate_appointment(doctor_id,date, time_str):
         if Appointment.objects.filter(doctor= doctor_id, time=time_str,date=date).exists():

@@ -8,7 +8,7 @@ from . models import Doctor ,Appointment ,Sevices_Model,UserProfile
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ["id","name","email","available","specialization","appointment_duration","created_at","updated_at"]
+    list_display = ["id","name","email","specialization","appointment_duration","created_at","updated_at"]
 
 
 
