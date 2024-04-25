@@ -15,10 +15,6 @@ class UserProfile(models.Model):
     user_type = models.CharField(_('user type'), max_length=100, choices=UserType.usertypes())
     
 
-
-
-   
-
 class Sevices_Model(CMSPlugin):
     img = models.ImageField(upload_to="img", null=True,blank=True)
     name = models.CharField(max_length=300)
@@ -74,7 +70,7 @@ class Appointment(models.Model):
     message = models.TextField(null=True,blank=False)
     date = models.DateField(null=True,blank=False)
     time=  models.TimeField(null=True,blank=False)
-    upload_reports = models.FileField(upload_to='static/patientreports', null=True, blank=True)
+    # upload_reports = models.FileField(upload_to='static/patientreports', null=True, blank=True)
 
 
     def __str__(self) -> str:

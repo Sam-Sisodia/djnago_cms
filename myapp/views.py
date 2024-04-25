@@ -17,6 +17,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as user_logout
 from django.contrib.auth  import get_user_model
 User = get_user_model()
+from django.db.models import Q
 
 
 class Register(View):
@@ -192,3 +193,23 @@ class AdminDashboard(View):
         return render(request, "dashboard/dashboard.html",)
 
 
+
+
+def searchdoctor(request):
+    doctors = Doctor.objects.all()
+    durations = AppointmentDuration.appointment_time() 
+    if request.method == "POST":  # Add a colon here
+        text = request.POST.get("search")
+        search_doctors = Doctor.objects.filter(Q(name__icontains=text) | Q(email__icontains=text))
+        context = {
+            "search_doctors": search_doctors,
+            "doctors":doctors,
+            "durations":durations,
+        }
+        return render(request, "appointment.html", context)
+    context = {
+        "doctors":doctors,
+        "durations":durations,
+    }
+    return render(request, "appointment.html",context)
+    

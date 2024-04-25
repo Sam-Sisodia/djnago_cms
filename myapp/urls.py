@@ -12,6 +12,7 @@ urlpatterns = [
     path("dashboard/",views.AdminDashboard.as_view(), name="dashboard"),
     path("register",views.Register.as_view(),name="register"),
     path('login/',views.Login, name = "login"),
-    path("doctor-appointments/",views.DoctorAppointments.as_view(),name="doctor-appointments")
+    path("doctor-appointments/",views.DoctorAppointments.as_view(),name="doctor-appointments"),
+    path("search-doctor/",views.searchdoctor,name="search-doctor")
 
 ]
