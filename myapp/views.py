@@ -156,8 +156,43 @@ class AdminAppointments(View):
         context = {
             "appointments": appointments
         }
-        return render(request,"dashboard/tables.html",context )
+        return render(request,"dashboard/appointments.html",context )
+    def post(self,request):
+        text = request.POST.get("search")
+        appointments = Appointment.objects.filter(Q(doctor__name__icontains=text) | Q(name=text)| Q(email__icontains=text))
+        context = {
+            "appointments": appointments,
+        }
+        return render(request, "dashboard/appointments.html", context)
 
+
+    
+class AllDoctorsView(View):
+    def get(self,request):
+        doctors = Doctor.objects.all()
+        context = {
+            "doctors": doctors
+        }
+        return render(request,"dashboard/doctors.html",context )
+
+    def post(self,request):
+        text = request.POST.get("search")
+        doctors = Doctor.objects.filter(Q(name__icontains=text) |  Q(email__icontains=text))
+        context = {
+            "doctors": doctors,
+        }
+        return render(request, "dashboard/doctors.html", context)
+
+
+# add-doctor
+
+
+class AddDoctors(View):
+    def get(self,request):
+        
+        context = {
+        }
+        return render(request,"dashboard/add_doctors.html",context )
 
 
 
@@ -168,9 +203,6 @@ class DoctorAppointments(View):
             "appointments": appointments
         }
         return render(request,"myappointments.html",context )
-
-
-
 
 class Showdata(View):
     def get(self, request):
@@ -191,6 +223,7 @@ class AdminDashboard(View):
         
         # Render the template and return the HTTP response
         return render(request, "dashboard/dashboard.html",)
+    
 
 
 
@@ -212,4 +245,27 @@ def searchdoctor(request):
         "durations":durations,
     }
     return render(request, "appointment.html",context)
+
+
+class ApplyLeaveView(View):
     
+    def get(self,request):
+    
+        return render(request,"leave.html")
+    
+    # def post(self, request):
+    #     try:
+    #         name = request.POST.get("name")
+    #         usertype = request.POST.get("usertype")
+    #         email = request.POST.get("email")
+    #         password = request.POST.get("password")
+    #         if not self.validateform(request, usertype, email):
+    #             return render(request, "register.html", self.context)
+    #         obj = User.objects.create(username=email,email=email,password=password,first_name=name)
+    #         obj.set_password(obj.password)
+    #         obj.save()
+    #         UserProfile.objects.create(user=obj, user_type=usertype)
+    #         return redirect('login')
+    #     except Exception as e:
+
+    #         return render(request,"register.html",self.context)

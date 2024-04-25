@@ -5,7 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 
 from cms.models import CMSPlugin
 from django.utils.translation import gettext_lazy as _
-from  myapp.enums import AppointmentDuration , UserType
+from  myapp.enums import AppointmentDuration , UserType,Leaveduration,Leavetype
 from  django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -31,8 +31,8 @@ class Hospital(models.Model):
 class Doctor(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField(null=True,blank=False)
+    # desciption = models.TextField(null=True,blank=True)
     # doctor_image = models.ImageField(upload_to='static/doctorimage',null=True,blank=True)
-    # available = models.BooleanField(default=False) 
     # qualification = models.CharField(max_length=200,null=True,blank=False)
     specialization = models.CharField(max_length=200,null=True,blank=False)
     appointment_duration = models.CharField(max_length=200,choices=AppointmentDuration.appointment_time(),null=True,blank=False)
@@ -55,11 +55,11 @@ class Doctor(models.Model):
 
 
 
-class DoctorSlot(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=False)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    is_available = models.BooleanField(default=True)
+# class DoctorSlot(models.Model):
+#     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=False)
+#     start_time = models.DateTimeField()
+#     end_time = models.DateTimeField()
+#     is_available = models.BooleanField(default=True)
 
 
 class Appointment(models.Model):
@@ -95,10 +95,11 @@ class GeneralSetting(models.Model):
 
 
 class Leave(models.Model):
-    date = models.DateField()
+    leave_type = models.CharField(max_length=200,choices=Leavetype.leavetypes(),null=True,blank=False)
+    leave_duration = models.CharField(max_length=200,choices=Leaveduration.leavedurations(),null=True,blank=False)
+    start_date = models.DateField()
+    end_date  = models.DateField()
     start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    is_available = models.BooleanField(default=True)
-    whole_day = models.BooleanField(default=False)
+    end_time = models.TimeField()
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE,null=True,blank=False)
  

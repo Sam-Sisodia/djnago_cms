@@ -21,7 +21,7 @@ class AppointmentDuration(Enum):
         intervals = []
         while current_time <= end_time:
             intervals.append((current_time.strftime('%H:%M'), current_time.strftime('%H:%M')))
-            current_time += timedelta(minutes=15)
+            current_time += timedelta(minutes=60)
         return tuple(intervals)
 
 
@@ -37,3 +37,25 @@ class UserType(Enum):
     def usertypes(cls):
         return tuple((i.name, i.value) for i in cls)
 
+
+class Leaveduration(Enum):
+    Singleday = "Singleday"
+    Multipledays = "Multipledays"
+    hours = "hours"
+
+
+    @classmethod
+    def leavedurations(cls):
+        return tuple((i.name, i.value) for i in cls)
+
+
+
+class Leavetype(Enum):
+    CasualLeave = "Casual Leave"
+    MedicalLeave = "Medical Leave"
+    PaidLeave  = "Paid Leave"
+
+
+    @classmethod
+    def leavetypes(cls):
+        return tuple((i.name, i.value) for i in cls)

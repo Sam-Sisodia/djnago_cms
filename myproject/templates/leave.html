@@ -1,0 +1,16 @@
+<form method="post">
+    {% csrf_token %}
+    <label for="id_date">Date:</label>
+    <input type="date" id="id_date" name="date"><br>
+    
+    <label for="id_start_time">Start Time:</label>
+    <input type="datetime-local" id="id_start_time" name="start_time"><br>
+    
+    <label for="id_end_time">End Time:</label>
+    <input type="datetime-local" id="id_end_time" name="end_time"><br>
+    
+    <label for="id_whole_day">Whole Day:</label>
+    <input type="checkbox" id="id_whole_day" name="whole_day"><br>
+    
+    <button type="submit">Apply Leave</button>
+</form>

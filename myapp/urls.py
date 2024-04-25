@@ -13,6 +13,9 @@ urlpatterns = [
     path("register",views.Register.as_view(),name="register"),
     path('login/',views.Login, name = "login"),
     path("doctor-appointments/",views.DoctorAppointments.as_view(),name="doctor-appointments"),
-    path("search-doctor/",views.searchdoctor,name="search-doctor")
+    path("search-doctor/",views.searchdoctor,name="search-doctor"),
+    path("apply-leave/",views.ApplyLeaveView.as_view(),name="apply-leave"),
+    path("all-doctors/",views.AllDoctorsView.as_view(),name="all-doctors"),
+    path("add-doctors/",views.AddDoctors.as_view(),name="add-doctors")
 
 ]

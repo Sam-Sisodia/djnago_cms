@@ -1,22 +1,21 @@
-{% comment %} {% extends "dashboard/base.html" %} {% endcomment %}
-{% include 'dashboard/css.html' %}
+{% extends "dashboard/base.html" %}
+
 {% load static %}
 
 {% block content %}
 
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-  
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
-        {% comment %} <nav aria-label="breadcrumb">
+        <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Tables</li>
           </ol>
           <h6 class="font-weight-bolder mb-0">Tables</h6>
-        </nav> {% endcomment %}
+        </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group input-group-outline">
@@ -128,15 +127,30 @@
         </div>
       </div>
     </nav>
-    <a href="{% url 'apply-leave' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Apply Leave </a>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <a href="{% url 'add-doctors' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add Doctors</a>
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3"> Today' Appointments </h6>
+                
+                    <div class="se">
+                      <form action="{% url 'all-doctors' %}" method="post"> <!-- Specify the action URL and method -->
+                        {% csrf_token %}
+                        {% comment %} <label for="search">Search:</label> {% endcomment %}
+                        <input type="search" id="search" name="search">
+                        <button type="submit">Search</button>
+                      </form>
+                     
+                      </div>
+
+
+                    
+  
+
+
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -149,23 +163,23 @@
                     <tr>
                       <th>#</th>
                       <th>Name</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>Message</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                    </tr>
+                      <th> Email </th>
+                      <th>specialization</th>
+                      <th>appointment_duration</th>
+                      <th>created_at</th>
+                      
+         </tr>
                   </thead>
                   <tbody>
-                    {% for ap in appointments %}
+                    {% for  doc in doctors %}
                     <tr>
                       <td>{{ forloop.counter }}</td>
-                      <td>{{ ap.name }}</td>
-                      <td>{{ ap.email }}</td>
-                      <td>{{ ap.phone }}</td>
-                      <td>{{ ap.message }}</td>
-                      <td>{{ ap.date }}</td>
-                      <td>{{ ap.time }}</td>
+                      <td> {{doc.name}}</td>
+                      <td>{{ doc.email }}</td>
+                      <td>{{ doc.specialization }}</td>
+                      <td>{{ doc.appointment_duration }}</td>
+                      <td>{{ doc.created_at }}</td>
+                    
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -584,7 +598,7 @@
           </div>
         </div>
       </div>
-      {% comment %} <footer class="footer py-4  ">
+      <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
@@ -691,7 +705,7 @@
         </div>
       </div>
     </div>
-  </div> {% endcomment %}
+  </div>
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
