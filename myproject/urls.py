@@ -24,6 +24,13 @@ from django.views.i18n import JavaScriptCatalog
 urlpatterns = i18n_patterns(
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
     path("app/", include("myapp.urls")),
+    path("appointments/", include("apps.appointments.urls")),
+    path("hospital/", include("apps.hospital.urls")),
+    path("doctors/", include("apps.doctors.urls")),
+    path("leaves/", include("apps.leaves.urls")),
+    path("users/", include("apps.users.urls")),
+    path("dashboard/", include("apps.admindashboard.urls")),
+
     path("admin/", admin.site.urls),
     path("filer/", include("filer.urls")),
     path("cms", include("cms.urls")),

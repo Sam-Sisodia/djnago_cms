@@ -75,7 +75,14 @@ INSTALLED_APPS = [
     "djangocms_frontend.contrib.tabs",
     "djangocms_frontend.contrib.utilities",
     "myapp",
+    "apps.appointments",
+    "apps.hospital",
+    "apps.doctors",
+    "apps.leaves",
+    "apps.users",
+    "apps.admindashboard",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
