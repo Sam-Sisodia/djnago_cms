@@ -127,18 +127,10 @@ class EditDoctor(View):
         doctor.save()
         return redirect("all-doctors")  # Redirect to the list of all doctors view
 
-# class DeleteDoctor(View):
-#     def post(self, request, doctor_id):
-#         print("+++++++++++++++++++++++=")
-#         doctor = get_object_or_404(Doctor, pk=doctor_id)
-#         doctor.delete()
-#         return redirect("all-doctors")  # Redirect to the list of all doctors view
-    
 
 
 def deletedoctor(request,doctor_id):
-    
-    print("+++++++++++++++++++++++++++++++++++++++++++++++++",doctor_id)
+
     doctor = get_object_or_404(Doctor, pk=doctor_id)
     print("++++++++++++",doctor)
     doctor.delete()
@@ -146,3 +138,55 @@ def deletedoctor(request,doctor_id):
 
 
         
+
+
+
+class HospitalsView(View):
+    def get(self,request):
+        hospitals = Hospital.objects.all()
+        context = {
+            "hospitals": hospitals
+        }
+        return render(request,"dashboard/hospitals.html",context )
+
+    def post(self,request):
+        text = request.POST.get("search")
+        hospitals = Hospital.objects.filter(name__icontains=text) 
+        context = {
+            "hospitals": hospitals,
+        }
+        return render(request, "dashboard/hospitals.html", context)
+    
+class AddHostpital(View):
+    def get(self,request):
+        return render(request,"dashboard/add_hospitals.html",)
+    
+    def post(self,request):
+        name = request.POST.get('name')
+        doctor = Hospital.objects.create(
+            name=name,)
+        return redirect("hospitals")
+    
+
+class EditHospital(View):
+    def get(self, request, doctor_id):
+        hospitals = get_object_or_404(Hospital, pk=doctor_id)
+        context = {
+            "hospital": hospitals,
+        }
+        return render(request, "dashboard/edit_hospitals.html", context)
+    
+    def post(self, request, doctor_id):
+        hospital = get_object_or_404(Hospital, pk=doctor_id)
+        print("+++++++++++++++++++++000000000000000000000000++",hospital)
+        hospital.name = request.POST.get('name')
+
+     
+        hospital.save()
+        return redirect("hospitals")  # Redirect to the list of all doctors view
+
+
+def deletehospital(request,doctor_id):
+    doctor = get_object_or_404(Hospital, pk=doctor_id)
+    doctor.delete()
+    return redirect("hospitals") 

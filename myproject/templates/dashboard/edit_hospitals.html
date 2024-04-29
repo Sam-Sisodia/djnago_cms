@@ -36,49 +36,13 @@
               <form role="form"    method="post"  class="text-start">
                 {% csrf_token %}
                 <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" value="{{ doctor.name }}" required>
+                    <label class="form-label">Hospital Name </label>
+                    <input type="text" class="form-control" name="name" value="{{ hospital.name }}" required>
                 </div>
-                <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Doctor Image</label>
-                    <input type="file" class="form-control" name="doctor_image">
-                </div>
-                <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" value="{{ doctor.email }}" required>
-                </div>
-                <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Description</label>
-                    <textarea class="form-control" name="description" rows="3">{{ doctor.description }}</textarea>
-                </div>
-                <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Qualification</label>
-                    <input type="text" class="form-control" name="qualification" value="{{ doctor.qualification }}" required>
-                </div>
-                <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Specialization</label>
-                    <input type="text" class="form-control" name="specialization" value="{{ doctor.specialization }}" required>
-                </div>
-                <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Appointment Duration</label>
-                    <select class="form-select" name="appointment_duration" required>
-                        {% for duration in appointment_duration %}
-                            <option value="{{ duration.0 }}" {% if doctor.appointment_duration == duration.0 %} selected {% endif %}>{{ duration.0 }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Hospitals</label>
-                    <select class="form-select" name="hospitals" multiple required>
-                        {% for hospital in hospitals %}
-                            <option value="{{ hospital.id }}" {% if hospital in doctor.hospitals.all %} selected {% endif %}>{{ hospital.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-             
-            
+               
+              
                 <div class="text-center">
-                  <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Update Doctor </button>
+                  <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Update Hospital </button>
                 </div>
                
               </form>
