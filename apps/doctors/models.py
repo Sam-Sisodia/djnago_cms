@@ -1,12 +1,13 @@
 from django.db import models
 from apps.hospital.models import Hospital
 from apps.doctors.enums import AppointmentDuration
+from django.contrib.auth import get_user_model
+User = get_user_model()
 # Create your models here.
 class Doctor(models.Model):
     name = models.CharField(max_length=200)
-    email = models.EmailField(null=True,blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
-    
     doctor_image = models.ImageField(upload_to='static/doctorimage',null=True,blank=True)
     qualification = models.CharField(max_length=200,null=True,blank=False)
     specialization = models.CharField(max_length=200,null=True,blank=False)

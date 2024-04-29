@@ -5,6 +5,6 @@ from django.urls import path
 
 urlpatterns = [
     
-    path("doctor-appointments/",views.DoctorAppointments.as_view(),name="doctor-appointments"),
+    path("",views.DoctorAppointments.as_view(),name="doctor-appointments"),
 
 ]

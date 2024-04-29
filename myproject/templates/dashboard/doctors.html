@@ -176,13 +176,13 @@
                     {% for  doc in doctors %}
                     <tr>
                       <td>{{ forloop.counter }}</td>
-                      <td> {{doc.name}}</td>
-                      <td>{{ doc.email }}</td>
+                      <td> {{doc.doctor.first_name}}</td>
+                      <td>{{ doc.doctor.email }}</td>
                       <td>{{ doc.specialization }}</td>
                       <td>{{ doc.appointment_duration }}</td>
                       <td>{{ doc.created_at }}</td>
                       <td> {% for  i in doc.hospital.all %}
-                                 {{i.name}},
+                                 {{i.name}}
                           
                                {% endfor %}
                       <td>

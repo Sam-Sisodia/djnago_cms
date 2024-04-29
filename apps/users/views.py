@@ -1,13 +1,10 @@
-from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import render
+
 from django.contrib.auth import get_user_model
 from django.views import View
 
 from django.shortcuts import render, redirect
-from django.views import View
-from datetime import datetime
 from apps.users.models import UserProfile
 
 from django.contrib import messages
@@ -67,8 +64,12 @@ def Login(request):
             auth_login(request, user)
             user=request.user
             user =UserProfile.objects.filter(user=user).first()
-            usertype = user.user_type
             
+            usertype = user.user_type
+            if not usertype:
+                messages.info(request ,"User Type  is missing")
+                return render(request, 'login.html')
+
             if usertype =="Staff":
                 return redirect('dashboard')
             if usertype =="Doctor":

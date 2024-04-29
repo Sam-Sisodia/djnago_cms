@@ -9,8 +9,10 @@ from apps.doctors.enums import AppointmentDuration
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-
+from apps.users.models import UserProfile
 class AdminDashboard(View):
     def get(self, request):
         # Render the template and return the HTTP response
@@ -26,7 +28,7 @@ class AdminAppointments(View):
         return render(request,"dashboard/appointments.html",context )
     def post(self,request):
         text = request.POST.get("search")
-        appointments = Appointment.objects.filter(Q(doctor__name__icontains=text) | Q(name=text)| Q(email__icontains=text))
+        appointments = Appointment.objects.filter(Q(doctor__doctor__email__icontains=text) | Q(name=text)| Q(email__icontains=text))
         context = {
             "appointments": appointments,
         }
@@ -56,25 +58,24 @@ class AddDoctors(View):
     def get(self,request):
         hospitals = Hospital.objects.all()  
         durations = AppointmentDuration.appointment_time() 
+        user= UserProfile.objects.filter(user_type="Doctor")
         context = {
             "hospitals":hospitals,
-            "appointment_duration": durations
+            "appointment_duration": durations,
+            "users": user,
         }
         return render(request,"dashboard/add_doctors.html",context)
     
     def post(self,request):
-        name = request.POST.get('name')
-        email = request.POST.get('email')
+        doctor_user = request.POST.get('doctor_user')
         description = request.POST.get('description')
         qualification = request.POST.get('qualification')
         specialization = request.POST.get('specialization')
         appointment_duration = request.POST.get('appointment_duration')
         hospital_ids = request.POST.getlist('hospitals')  # Assuming hospital is a multi-select field
-        print("++++++++++++++++",name , email,description,qualification, specialization,appointment_duration,hospital_ids)
         
         doctor = Doctor.objects.create(
-            name=name,
-            email=email,
+            user_id = doctor_user,
             description=description,
             qualification=qualification,
             specialization=specialization,
@@ -88,33 +89,25 @@ class AddDoctors(View):
         doctor.save()
         return redirect("all-doctors")
     
-
-
-
-
-
-
-
-
-
-
-
 class EditDoctor(View):
     def get(self, request, doctor_id):
         doctor = get_object_or_404(Doctor, pk=doctor_id)
         hospitals = Hospital.objects.all()
         durations = AppointmentDuration.appointment_time()
+        user= UserProfile.objects.filter(user_type="Doctor")
         context = {
             "doctor": doctor,
             "hospitals": hospitals,
-            "appointment_duration": durations
+            "appointment_duration": durations,
+            "users": user,
+        
         }
         return render(request, "dashboard/edit_doctors.html", context)
     
     def post(self, request, doctor_id):
         doctor = get_object_or_404(Doctor, pk=doctor_id)
-        doctor.name = request.POST.get('name')
-        doctor.email = request.POST.get('email')
+        doctor.user_id = request.POST.get('doctor_user')
+       
         doctor.description = request.POST.get('description')
         doctor.qualification = request.POST.get('qualification')
         doctor.specialization = request.POST.get('specialization')
@@ -178,7 +171,7 @@ class EditHospital(View):
     
     def post(self, request, doctor_id):
         hospital = get_object_or_404(Hospital, pk=doctor_id)
-        print("+++++++++++++++++++++000000000000000000000000++",hospital)
+
         hospital.name = request.POST.get('name')
 
      

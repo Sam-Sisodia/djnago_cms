@@ -1,16 +1,202 @@
-<form method="post">
-    {% csrf_token %}
-    <label for="id_date">Date:</label>
-    <input type="date" id="id_date" name="date"><br>
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+      .errorlist{
+        color: red;
+        list-style-type:none;
+      }
+      .success{
+        color:green;
+      }
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leave Type Form</title>
+<style>
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+<div class="container">
+    <div class="row my-3">
+     <div class="col-sm-6 offset-sm-3">
+        <p>Please select leave Duration :</p>
+
+        <input type="radio" id="SingleDay" name="leaveType" value="SingleDay">
+        <label for="SingleDay">Single Day </label><br>
+        
+        <input type="radio" id="MultipleDays" name="leaveType" value="MultipleDays">
+        <label for="MultipleDays">Multiple Days</label><br>
+        
+        <input type="radio" id="Hours" name="leaveType" value="Hours">
+        <label for="Hours">Hours </label><br><br>
+        
+      <hr>
+      
+
+            <form id="SingleDayForm" class="hidden shadow p-5" method="post" novalidate  >
+                {% csrf_token %}
+         
+                <div class="mb-3">
+                    <label for="" class="form-label">Leave Type</label>
+                    <select name="leavetype" id="leavetype" class="formbold-form-input" required>
+                        <option value="" selected disabled>Sele User Type </option>
+                        {% for leavetype in leavetypes %}
+                            <option value="{{leavetype.1}}" > {{leavetype.1 }}    </option>
+                        {% endfor %}
+                    </select>
+              
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label"> Date</label>
+                        <input type="date" name="start_date" id="start_date" class="formbold-form-input" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Reason</label>
+                        <textarea name="message" id="message" class="formbold-form-input" rows="4"></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="Submit" class="btn btn-primary">Submit</button>
+                        </div>
+            </form>
+
+
+
+            {% comment %} MultipleDaysForm {% endcomment %}
+
+
+            <form id="MultipleDaysForm" class="hidden shadow p-5" method="post" novalidate >
+                {% csrf_token %}
+           
+                <div class="mb-3">
+                    <label for="" class="form-label">Leave Type</label>
+                    <select name="leavetype" id="leavetype" class="formbold-form-input" required>
+                        <option value="" selected disabled>Sele User Type </option>
+                        {% for leavetype in leavetypes %}
+                            <option value="{{leavetype.1}}" > {{leavetype.1 }}    </option>
+                        {% endfor %}
+                    </select>
+              
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Start Date</label>
+                        <input type="date" name="start_date" id="start_date" class="formbold-form-input" required>
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">End Date</label>
+                        <input type="date" name="end_date" id="end_date" class="formbold-form-input" required>
+                    </div>
+                
+                   
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Reason</label>
+                        <textarea name="message" id="message" class="formbold-form-input" rows="4"></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="Submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+            </form>
+
+
+            {% comment %} HoursForm {% endcomment %}
+
+            <form id="HoursForm" class="hidden shadow p-5" method="post" novalidate >
+                {% csrf_token %}
+               
+                <div class="mb-3">
+                    <label for="" class="form-label">Leave Type</label>
+                    <select name="leavetype" id="leavetype" class="formbold-form-input" required>
+                        <option value="" selected disabled>Sele User Type </option>
+                        {% for leavetype in leavetypes %}
+                            <option value="{{leavetype.1}}" > {{leavetype.1 }}    </option>
+                        {% endfor %}
+                    </select>
+              
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label"> Date</label>
+                        <input type="date" name="start_date" id="start_date" class="formbold-form-input" required>
+                    </div>
+                
+
+
+                    <div class="mb-3">
+                        <label for="" class="form-label">Hours</label>
+                        <select name="leavehour" id="leavehour" class="formbold-form-input" required>
+                            <option value="" selected disabled>Sele User Type </option>
+                            {% for leavehour in leavehours %}
+                                <option value="{{leavehour.1}}" > {{leavehour.1 }}    </option>
+                            {% endfor %}
+                        </select>
+                  
+                        </div>
     
-    <label for="id_start_time">Start Time:</label>
-    <input type="datetime-local" id="id_start_time" name="start_time"><br>
-    
-    <label for="id_end_time">End Time:</label>
-    <input type="datetime-local" id="id_end_time" name="end_time"><br>
-    
-    <label for="id_whole_day">Whole Day:</label>
-    <input type="checkbox" id="id_whole_day" name="whole_day"><br>
-    
-    <button type="submit">Apply Leave</button>
-</form>
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Reason</label>
+                        <textarea name="message" id="message" class="formbold-form-input" rows="4"></textarea>
+                    </div>
+                    
+            </form>
+
+            <input type="submit" value="Submit" onclick="submitForm()">
+        </div>
+    </div>
+</div>
+
+<script>
+  function submitForm() {
+    // Determine which form is selected
+    var leaveType = document.querySelector('input[name="leaveType"]:checked').value;
+
+    // Submit the selected form
+    switch (leaveType) {
+      case 'SingleDay':
+        document.getElementById('SingleDayForm').submit();
+        break;
+      case 'MultipleDays':
+        document.getElementById('MultipleDaysForm').submit();
+        break;
+      case 'Hours':
+        document.getElementById('HoursForm').submit();
+        break;
+      default:
+        alert("Please select a leave type.");
+    }
+  }
+
+  // Show the relevant form based on the selected leave type
+  document.querySelectorAll('input[name="leaveType"]').forEach(function(el) {
+    el.addEventListener('change', function() {
+      document.querySelectorAll('form').forEach(function(form) {
+        form.classList.add('hidden');
+      });
+      document.getElementById(el.value + 'Form').classList.remove('hidden');
+    });
+  });
+</script>
+
+</body>
+</html>
+
+{% endblock %}
