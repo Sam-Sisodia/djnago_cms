@@ -167,6 +167,8 @@
                       <th>specialization</th>
                       <th>appointment_duration</th>
                       <th>created_at</th>
+                      <th>Hospitals </th>
+                      <th>Actions</th>
                       
          </tr>
                   </thead>
@@ -179,6 +181,22 @@
                       <td>{{ doc.specialization }}</td>
                       <td>{{ doc.appointment_duration }}</td>
                       <td>{{ doc.created_at }}</td>
+                      <td> {% for  i in doc.hospital.all %}
+                                 {{i.name}},
+                          
+                               {% endfor %}
+                      <td>
+                        <!-- Edit Icon -->
+                        <a href="{% url 'edit-doctor' doc.id %}">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                        
+                        <!-- Delete Icon -->
+                        <a href="{% url 'delete-doctor' doc.id %}">
+                          <i class="fas fa-trash"></i>
+                        </a>
+                        
+                      </td>
                     
                     </tr>
                     {% endfor %}

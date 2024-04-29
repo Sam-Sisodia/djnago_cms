@@ -5,7 +5,8 @@ from apps.doctors.enums import AppointmentDuration
 class Doctor(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField(null=True,blank=False)
-    desciption = models.TextField(null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    
     doctor_image = models.ImageField(upload_to='static/doctorimage',null=True,blank=True)
     qualification = models.CharField(max_length=200,null=True,blank=False)
     specialization = models.CharField(max_length=200,null=True,blank=False)

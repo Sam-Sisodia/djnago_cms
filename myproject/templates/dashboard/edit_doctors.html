@@ -36,60 +36,45 @@
               <form role="form"    method="post"  class="text-start">
                 {% csrf_token %}
                 <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Name</label>
-                  <input type="text"  class="form-control"  name="name" required >
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" value="{{ doctor.name }}" required>
                 </div>
                 <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Doctor Image</label>
-                  <input type="file" class="form-control" name="doctor_image" >
-              </div>
-
+                    <label class="form-label">Doctor Image</label>
+                    <input type="file" class="form-control" name="doctor_image">
+                </div>
                 <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Email</label>
-                  <input type="email" class="form-control" name="email" required>
-              </div>
-              <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Description</label>
-                  <textarea class="form-control" name="description" rows="3"></textarea>
-              </div>
-      
-              <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Qualification</label>
-                  <input type="text" class="form-control" name="qualification" required>
-              </div>
-              <div class="input-group input-group-outline my-3">
-                  <label class="form-label">Specialization</label>
-                  <input type="text" class="form-control" name="specialization" required>
-              </div>
-            
-
-              <div class="input-group input-group-outline my-3">
-                <label class="form-label">Appointment Duration</label>
-                <select class="form-select" name="appointment_duration"  required>
-
-                  {% for duration in appointment_duration %}
-                    <!-- Populate hospitals from database -->
-                    <option value="{{ duration.0  }}">{{ duration.0  }}</option>
-                    {% endfor %}
-                    
-            
-                </select>
-            </div>
-
-
-              <div class="input-group input-group-outline my-3">
-                <label class="form-label">Hospitals</label>
-                <select class="form-select" name="hospitals" multiple required>
-
-                  {% for hostpital in hospitals %}
-                    <!-- Populate hospitals from database -->
-                    <option value="{{hostpital.id}}">{{hostpital.name}}</option>
-                    {% endfor %}
-                    
-            
-                </select>
-            </div>
-  
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" value="{{ doctor.email }}" required>
+                </div>
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-control" name="description" rows="3">{{ doctor.description }}</textarea>
+                </div>
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Qualification</label>
+                    <input type="text" class="form-control" name="qualification" value="{{ doctor.qualification }}" required>
+                </div>
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Specialization</label>
+                    <input type="text" class="form-control" name="specialization" value="{{ doctor.specialization }}" required>
+                </div>
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Appointment Duration</label>
+                    <select class="form-select" name="appointment_duration" required>
+                        {% for duration in appointment_duration %}
+                            <option value="{{ duration.0 }}" {% if doctor.appointment_duration == duration.0 %} selected {% endif %}>{{ duration.0 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group input-group-outline my-3">
+                    <label class="form-label">Hospitals</label>
+                    <select class="form-select" name="hospitals" multiple required>
+                        {% for hospital in hospitals %}
+                            <option value="{{ hospital.id }}" {% if hospital in doctor.hospitals.all %} selected {% endif %}>{{ hospital.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
              
                 {% comment %} <div class="form-check form-switch d-flex align-items-center mb-3">
                   <input class="form-check-input" type="checkbox" id="rememberMe" checked>
@@ -142,15 +127,11 @@
     </footer>
   </div>
 </main>
-
-
-
-
 <!--   Core JS Files   -->
-{% comment %} <script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/popper.min.js"></script>
 <script src="../assets/js/core/bootstrap.min.js"></script>
 <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script> {% endcomment %}
+<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
 <script>
   var win = navigator.platform.indexOf('Win') > -1;
   if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -164,5 +145,4 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../assets/js/material-dashboard.min.js?v=3.1.0"></script>
-
 {% endblock %}
