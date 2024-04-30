@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 # Create your models here.
 class Doctor(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200,null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
     doctor_image = models.ImageField(upload_to='static/doctorimage',null=True,blank=True)
